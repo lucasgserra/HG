@@ -18,36 +18,68 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+        <!-- Compilação -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+            </configuration>
+        </plugin>
+
+        <!-- Shade plugin para embutir as libs -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.2.4</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals><goal>shade</goal></goals>
+                    <configuration>
+                        <createDependencyReducedPom>false</createDependencyReducedPom>
+                        <!-- Opcional: evitar conflitos de pacotes -->
+                        <!--
+                        <relocations>
+                          <relocation>
+                            <pattern>org.reflections</pattern>
+                            <shadedPattern>rainprojects.shaded.org.reflections</shadedPattern>
+                          </relocation>
+                        </relocations>
+                        -->
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>run</goal>
+                    </goals>
+                    <configuration>
+                        <target>
+                            <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                                  tofile="C:/Users/Sasuk/OneDrive/Desktop/servidor 1.8/plugins/HG.jar" />
+                        </target>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
+
     <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-      </resource>
+        <resource>
+            <directory>src/main/resources</directory>
+            <filtering>true</filtering>
+        </resource>
     </resources>
-  </build>
+</build>
 
   <repositories>
       <repository>
@@ -58,14 +90,32 @@
           <id>sonatype</id>
           <url>https://oss.sonatype.org/content/groups/public/</url>
       </repository>
+      <repository>
+          <id>jitpack.io</id>
+          <url>https://jitpack.io</url>
+      </repository>
+      <repository>
+          <id>codemc-repo</id>
+          <url>https://repo.codemc.io/repository/maven-public/</url>
+          <layout>default</layout>
+      </repository>
   </repositories>
 
   <dependencies>
       <dependency>
           <groupId>org.spigotmc</groupId>
-          <artifactId>spigot-api</artifactId>
-          <version>1.12-R0.1-SNAPSHOT</version>
-          <scope>provided</scope>
+          <artifactId>spigot</artifactId>
+          <version>1.8.8-R0.1-SNAPSHOT</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/libs/spigot.jar</systemPath>
+      </dependency>
+
+      <dependency>
+          <groupId>org.reflections</groupId>
+          <artifactId>reflections</artifactId>
+          <version>0.9.12</version>
       </dependency>
   </dependencies>
+
+
 </project>
