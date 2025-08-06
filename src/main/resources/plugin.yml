@@ -1,0 +1,4 @@
+name: HG
+version: '${project.version}'
+main: rainprojects.hg.HG
+load: STARTUP
