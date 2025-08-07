@@ -23,15 +23,29 @@ jobs:
           distribution: 'corretto'
           java-version: '8'
 
-      - name: Install Spigot 1.8.8 in local Maven repo
+      - name: Install Git (required for BuildTools)
+        run: sudo apt-get update && sudo apt-get install -y git
+
+      - name: Download BuildTools
+        run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+
+      - name: Generate Spigot 1.8.8 jar
         run: |
-          if [ ! -f libs/spigot.jar ]; then
-            echo "Arquivo spigot.jar não encontrado em libs/. Por favor, adicione o arquivo ao repositório."
-            exit 1
-          fi
-          mvn install:install-file -Dfile=libs/spigot.jar \
-            -DgroupId=org.spigotmc -DartifactId=spigot \
-            -Dversion=1.8.8-R0.1-SNAPSHOT -Dpackaging=jar
+          mkdir buildtools
+          mv BuildTools.jar buildtools/
+          cd buildtools
+          git config --global --add safe.directory "$PWD"
+          java -jar BuildTools.jar --rev 1.8.8
+          cd ..
+
+      - name: Install Spigot jar in local Maven repo
+        run: |
+          mvn install:install-file \
+            -Dfile=buildtools/spigot-1.8.8.jar \
+            -DgroupId=org.spigotmc \
+            -DartifactId=spigot \
+            -Dversion=1.8.8-R0.1-SNAPSHOT \
+            -Dpackaging=jar
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
