@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - 'feature/**'
-  pull_request:
-    branches:
-      - 'feature/**'
 
 jobs:
   build:
@@ -58,3 +55,13 @@ jobs:
         with:
           name: plugin-jar
           path: target/*.jar
+
+      - name: Create Pull Request to master
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: master
+          branch: ${{ github.ref_name }}
+          title: 'Automatic PR from ${{ github.ref_name }}'
+          body: |
+            PR gerado automaticamente - HG - `${{ github.ref_name }}`.
