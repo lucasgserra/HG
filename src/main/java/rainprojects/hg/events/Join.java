@@ -1,5 +1,6 @@
 package rainprojects.hg.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,6 +9,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.inventory.ItemStack;
 import rainprojects.hg.grupos.GrupoManager;
+import rainprojects.hg.scoreboard.ScoreboardManager;
 import rainprojects.hg.timer.GameState;
 import rainprojects.hg.timer.SchedulerGame;
 
@@ -22,6 +24,9 @@ public class Join implements Listener {
 
         player.getInventory().clear();
         player.getInventory().setItem(4, new ItemStack(Material.PAPER));
+
+        ScoreboardManager.setupTab(player);
+        Bukkit.getOnlinePlayers().forEach(ScoreboardManager::setupTab);
     }
 
     @EventHandler
