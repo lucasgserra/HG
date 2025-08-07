@@ -25,11 +25,11 @@ jobs:
 
       - name: Install Spigot 1.8.8 in local Maven repo
         run: |
-          if [ ! -f libs/spigot-1.8.8.jar ]; then
-            echo "Arquivo spigot-1.8.8.jar não encontrado em libs/. Por favor, adicione o arquivo ao repositório."
+          if [ ! -f libs/spigot.jar ]; then
+            echo "Arquivo spigot.jar não encontrado em libs/. Por favor, adicione o arquivo ao repositório."
             exit 1
           fi
-          mvn install:install-file -Dfile=libs/spigot-1.8.8.jar \
+          mvn install:install-file -Dfile=libs/spigot.jar \
             -DgroupId=org.spigotmc -DartifactId=spigot \
             -Dversion=1.8.8-R0.1-SNAPSHOT -Dpackaging=jar
 
