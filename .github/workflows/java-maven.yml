@@ -11,8 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository code
+      - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Set up JDK 8 (Corretto)
         uses: actions/setup-java@v4
@@ -64,4 +71,4 @@ jobs:
           branch: ${{ github.ref_name }}
           title: 'Automatic PR from ${{ github.ref_name }}'
           body: |
-            PR gerado automaticamente - HG - `${{ github.ref_name }}`.
+            Este PR foi criado automaticamente pelo workflow de CI após o build da branch `${{ github.ref_name }}`.
