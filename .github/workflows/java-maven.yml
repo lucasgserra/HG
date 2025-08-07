@@ -72,3 +72,7 @@ jobs:
           title: 'Automatic PR from ${{ github.ref_name }}'
           body: |
             Este PR foi criado automaticamente pelo workflow de CI após o build da branch `${{ github.ref_name }}`.
+
+permissions:
+  contents: write
+  pull-requests: write
