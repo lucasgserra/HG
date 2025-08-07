@@ -1,0 +1,46 @@
+name: Java CI for Feature Branches (Minecraft 1.8 Plugin)
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+  pull_request:
+    branches:
+      - 'feature/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 8 (Corretto)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '8'
+
+      - name: Install Spigot 1.8.8 in local Maven repo
+        run: |
+          if [ ! -f libs/spigot-1.8.8.jar ]; then
+            echo "Arquivo spigot-1.8.8.jar não encontrado em libs/. Por favor, adicione o arquivo ao repositório."
+            exit 1
+          fi
+          mvn install:install-file -Dfile=libs/spigot-1.8.8.jar \
+            -DgroupId=org.spigotmc -DartifactId=spigot \
+            -Dversion=1.8.8-R0.1-SNAPSHOT -Dpackaging=jar
+
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+
+      - name: Run tests with Maven
+        run: mvn test
+
+      - name: Upload plugin jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-jar
+          path: target/*.jar
