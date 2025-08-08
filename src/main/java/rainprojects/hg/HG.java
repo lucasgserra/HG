@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.util.ConfigurationBuilder;
+import rainprojects.hg.commands.KitGui;
 import rainprojects.hg.grupos.GrupoManager;
 import rainprojects.hg.timer.SchedulerGame;
 
