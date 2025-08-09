@@ -4,14 +4,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import rainprojects.hg.inventories.KitGuiInventory;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+public class KitGui implements CommandExecutor, CommandInterface{
 
-public class KitGui implements CommandExecutor {
-
-    public static Collection<String> commandName = Arrays.asList("kit", "kits");
+    public static String commandName = "kit";
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -19,8 +16,13 @@ public class KitGui implements CommandExecutor {
             return true;
         }
         if (commandName.contains(command.getName())) {
-            //GUI
+            KitGuiInventory.gui(((Player) commandSender).getPlayer());
         }
         return false;
+    }
+
+    @Override
+    public String getCommandName() {
+        return commandName;
     }
 }
