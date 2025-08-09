@@ -105,6 +105,7 @@ public final class HG extends JavaPlugin {
         SchedulerGame.init();
         loadAllListeners();
         loadAllCommands();
+
     }
 
     @Override
