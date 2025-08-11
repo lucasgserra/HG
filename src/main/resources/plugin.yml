@@ -4,3 +4,4 @@ main: rainprojects.hg.HG
 load: STARTUP
 commands:
   kit:
+  tag:
