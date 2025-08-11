@@ -1,11 +1,13 @@
 package rainprojects.hg.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import rainprojects.hg.grupos.GrupoManager;
 import rainprojects.hg.grupos.GruposEnum;
+import rainprojects.hg.scoreboard.ScoreboardManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +39,7 @@ public class TagCommand implements CommandExecutor, CommandInterface {
             sb.append(grupos.getPrefix() + grupos.toString().toLowerCase() + " ");
         });
         if (args.length == 0) {
-            player.sendMessage("§aUse /" + commandName + " ("+sb.toString()+"§a)");
+            player.sendMessage("§aUse /" + commandName + " ( "+sb.toString()+"§a)");
             return true;
         }
         if (args.length == 1) {
@@ -45,6 +47,11 @@ public class TagCommand implements CommandExecutor, CommandInterface {
                 String targetTag = args[0];
                 if (haveGroups.contains(GruposEnum.valueOf(targetTag.toUpperCase()))) {
                     player.sendMessage("§aAgora voce esta com a tag: " + targetTag);
+                    GrupoManager.updatePrefix(player.getName(),
+                            GruposEnum.valueOf(targetTag.toUpperCase()).getPrefix());
+                    Bukkit.getOnlinePlayers().forEach(on->{
+                        ScoreboardManager.setupTab(on);
+                    });
                 } else {
                     player.sendMessage("§cTag nao existe ou sem permissao!");
                 }

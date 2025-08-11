@@ -30,7 +30,7 @@ public class ScoreboardManager {
 
                 String prefix = "";
                 if (GrupoManager.group(player.getName()).getWeight() >= GruposEnum.VIP.getWeight()) {
-                    prefix =GrupoManager.group(player.getName()).getPrefix();
+                    prefix =GrupoManager.getCurrentPrefix(player.getName());
                 } else {
                     prefix = "§7";
                 }

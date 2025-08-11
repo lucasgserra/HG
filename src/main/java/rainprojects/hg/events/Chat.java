@@ -13,7 +13,7 @@ public class Chat implements Listener {
         Player player = event.getPlayer();
 
         event.setFormat("<" +
-                GrupoManager.group(player.getName()).getPrefix() +player.getName()+"§f> " + event.getMessage());
+                GrupoManager.getCurrentPrefix(player.getName()) +player.getName()+"§f> " + event.getMessage());
     }
 
 }

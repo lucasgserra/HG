@@ -8,6 +8,7 @@ import java.util.Map;
 public class GrupoManager {
 
     private static Map<String, GruposEnum> grupo = new HashMap<>();
+    private static Map<String, String> currentPrefix = new HashMap<>();
 
     public static Map<String, GruposEnum> getGrupo() {
         return grupo;
@@ -34,5 +35,14 @@ public class GrupoManager {
     }
     public static GruposEnum group(String name) {
         return grupo.get(name);
+    }
+    public static String getCurrentPrefix(String name) {
+        if (currentPrefix.containsKey(name)) {
+            return currentPrefix.get(name);
+        }
+        return group(name).getPrefix();
+    }
+    public static void updatePrefix(String name, String prefix) {
+        currentPrefix.put(name, prefix);
     }
 }
